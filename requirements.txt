@@ -6,5 +6,5 @@ langchain-community
 python-dotenv
 faiss-cpu
 tiktoken
-mistralai
+langchain-mistralai
 langchain_huggingface
