@@ -15,24 +15,23 @@ model = ChatMistralAI(
 st.set_page_config(page_title="Funny AI Chatbot", page_icon="🤖")
 
 st.title("🤖 shows recommender")
+st.markdown("""
+<p style='text-align:center;
+color:white;
+font-size:18px;'>
+Find your next binge-worthy show 🍿
+</p>
+""", unsafe_allow_html=True)
 
 st.markdown("""
 <style>
 
-/* Google Font */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
-
-/* Whole App */
-html, body, [class*="css"]{
-    font-family: 'Poppins', sans-serif;
-}
-
+/* Background */
 .stApp{
-    background-color:#141414;
-    color:white;
+    background-color:#000000;
 }
 
-/* Hide Streamlit Menu & Footer */
+/* Hide Streamlit branding */
 #MainMenu {visibility:hidden;}
 footer {visibility:hidden;}
 header {visibility:hidden;}
@@ -41,121 +40,79 @@ header {visibility:hidden;}
 h1{
     color:#E50914 !important;
     text-align:center;
-    font-size:48px !important;
-    font-weight:700 !important;
+    font-size:50px !important;
+    font-weight:bold;
 }
 
-h2,h3,h4,h5,h6{
+/* All text */
+h2,h3,h4,h5,h6,p,label,span{
     color:white !important;
 }
 
-/* Normal Text */
-p,label,span{
+/* Chat input */
+.stChatInput input{
+    background:#111111 !important;
     color:white !important;
-}
-
-/* Sidebar */
-section[data-testid="stSidebar"]{
-    background:#0B0B0B;
-}
-
-/* Text Input */
-.stTextInput input{
-    background:#222222;
-    color:white;
-    border:2px solid #E50914;
-    border-radius:12px;
-    padding:12px;
-}
-
-.stTextInput input:focus{
-    border:2px solid #E50914;
-    box-shadow:0 0 10px #E50914;
-}
-
-/* Text Area */
-textarea{
-    background:#222222 !important;
-    color:white !important;
+    border:2px solid #E50914 !important;
     border-radius:12px !important;
+}
+
+/* Text input */
+.stTextInput input{
+    background:#111111 !important;
+    color:white !important;
+    border:2px solid #E50914 !important;
+    border-radius:12px !important;
+}
+
+/* Placeholder */
+.stTextInput input::placeholder,
+.stChatInput input::placeholder{
+    color:#cccccc !important;
 }
 
 /* Button */
 .stButton>button{
+    background:#E50914 !important;
+    color:white !important;
+    border:none !important;
+    border-radius:10px !important;
+    padding:12px 25px !important;
+    font-size:18px !important;
+    font-weight:bold !important;
     width:100%;
-    background:#E50914;
-    color:white;
-    border:none;
-    border-radius:12px;
-    padding:12px;
-    font-size:18px;
-    font-weight:600;
-    transition:0.3s;
 }
 
 .stButton>button:hover{
-    background:#B20710;
-    transform:scale(1.02);
+    background:#B20710 !important;
 }
 
-/* Select Box */
-.stSelectbox div[data-baseweb="select"]{
-    background:#222222;
-    color:white;
-}
-
-/* Slider */
-.stSlider{
-    color:#E50914;
-}
-
-/* Chat Messages */
+/* Chat messages */
 .stChatMessage{
-    background:#1F1F1F;
-    border-radius:15px;
-    padding:15px;
+    background:#181818 !important;
     border-left:5px solid #E50914;
-    margin-bottom:12px;
+    border-radius:12px;
+    padding:12px;
+    margin-bottom:10px;
 }
 
-/* Markdown Blocks */
+/* Sidebar */
+section[data-testid="stSidebar"]{
+    background:#0a0a0a;
+}
+
+section[data-testid="stSidebar"] *{
+    color:white !important;
+}
+
+/* Markdown */
 div[data-testid="stMarkdownContainer"]{
-    color:white;
-}
-
-/* Code Block */
-pre{
-    background:#222222 !important;
-    color:white !important;
-    border-radius:10px;
-}
-
-/* Success Message */
-.stSuccess{
-    background:#1F1F1F !important;
     color:white !important;
 }
 
-/* Warning */
-.stWarning{
-    background:#332700 !important;
+/* Success, Error, Warning */
+.stSuccess,.stWarning,.stError{
     color:white !important;
-}
-
-/* Error */
-.stError{
-    background:#3B0A0A !important;
-    color:white !important;
-}
-
-/* Recommendation Card */
-.card{
-    background:#1F1F1F;
-    padding:20px;
-    border-radius:15px;
-    border-left:5px solid #E50914;
-    box-shadow:0px 0px 15px rgba(229,9,20,0.3);
-    margin-top:20px;
 }
 
 /* Scrollbar */
@@ -163,21 +120,18 @@ pre{
     width:8px;
 }
 
-::-webkit-scrollbar-track{
-    background:#141414;
-}
-
 ::-webkit-scrollbar-thumb{
     background:#E50914;
     border-radius:10px;
 }
 
-::-webkit-scrollbar-thumb:hover{
-    background:#B20710;
+::-webkit-scrollbar-track{
+    background:#000000;
 }
 
 </style>
 """, unsafe_allow_html=True)
+
 # Store chat history
 if "messages" not in st.session_state:
     st.session_state.messages = [
@@ -207,6 +161,18 @@ if prompt:
 
     # Get response
     response = model.invoke(st.session_state.messages)
+    st.markdown(f"""
+<div style="
+background:#181818;
+padding:20px;
+border-radius:12px;
+border-left:5px solid #E50914;
+margin-top:15px;
+">
+<h3 style="color:#E50914;">🍿 Recommended Shows</h3>
+<p style="color:white;">{response}</p>
+</div>
+""", unsafe_allow_html=True)
 
     st.session_state.messages.append(
         AIMessage(content=response.content)
