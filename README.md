@@ -75,3 +75,6 @@ streamlit run uichatbot.py
 ## 👩‍💻 Author
 
 **Sargun Kaur**
+## 🚀 Live Demo
+
+🔗 **Try the App:** https://shows-recommender-chatbot-mkfxtsr9qr3chcyijjkpno.streamlit.app/
